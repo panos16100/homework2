@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#define MAX pow(10,6) //Ο μέγιστος επιτρεπτός αριθμός γύρων
+#define MAX 2 //Ο μέγιστος επιτρεπτός αριθμός γύρων
 
 
 
