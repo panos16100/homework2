@@ -54,11 +54,19 @@ int main(void){
     int pixel_start=*(unsigned int *)(headers+START_PIXELS);
     width=*(unsigned int *)(headers+WI);
     heigh=*(unsigned int *)(headers+HI);
+     /*η ακέραια μεταβλητή diafora μας δείχνει πόσα δεδομένα/bytes υπάρχουν ανάμεσα 
+     στο pixel_start και τα headers bytes*/
+    /*η fread αντιγράφει τα  diafora δεδομενα/bytes  από το stdin στον δυναμικό 
+    πίνακα otherdata*/
+    
     int diafora=pixel_start-54;
     otherdata=malloc(diafora*sizeof(char));
     fread(otherdata,sizeof(char),diafora,stdin);
     int photo_size=*(unsigned int *)(headers+PHOTOS);
     pixel_data=malloc(photo_size*sizeof(char));
+    /*στον δυναμικό πίνακα pixel _data αντίγραφονται τα δεδομένα/bytes μαζί με το 
+    padding της εικονας(bytes εικόνας παρέχονται από την μεταβλητή photo _size*/
+
     fread(pixel_data,sizeof(char),photo_size,stdin);
     //array for pixel only bytes without padding
     char ***image_array=malloc(heigh*sizeof(char **));
