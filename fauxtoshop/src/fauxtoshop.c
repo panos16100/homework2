@@ -9,12 +9,16 @@ pixels της εικόνας */
 
 
  
-#define WI 18 /
+#define WI 18 /*στο 18ο byte τηε κεφαλίδας (headers) περιέχεται το πλατος(width) σε   
+
+    pixels με την μορφή little endian*/
 
 
  
-#define HI 22
-#define PHOTOS 34
+#define HI 22 /*στο 22ο byte της κεφαλίδας (headers) περιέχεται το ύψος (heigh) σε
+    pixels με την μορφή little endian*/
+#define PHOTOS 34 /*στο 34ο byte της κεφαλίδας (headers) περιέχεται το μέγεθος της εικόνας 
+    σε bytes με την μορφή little endian*/
 
 
 
