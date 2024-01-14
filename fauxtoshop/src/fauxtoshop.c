@@ -26,9 +26,13 @@ int main(void){
     char headers[54];
     char *otherdata;
     char *pixel_data;
+    /* με την χρήση της συνάρτησης fread η οποία ορίζεται στο αρχείο κεφαλίδας stdio.h
+    περνάμε τα δεδομένα/bytes από το ανοιχτό αρχείο - εικόνα (stdin-δείκτης σε
+    ανοιχτό αρχείο) στον στατικό πίνακα χαρακτήρων headrers. */
     int  read=fread(headers,sizeof(char),54,stdin);
     if(read<54){
-        fprintf(stderr,"sorry but the are not enough headers bytes in the file\n");
+    
+     fprintf(stderr,"sorry but the are not enough headers bytes in the file\n");
         exit(1);
     }
     if((headers[0]!='B')||(headers[1]!='M')){
