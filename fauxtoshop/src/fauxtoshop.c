@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+//οι παραπάνω σταθερές προκύπτουν από την εκφώνηση της άσκησης 
 #define FILES 2
 #define START_PIXELS 10
 #define WI 18
