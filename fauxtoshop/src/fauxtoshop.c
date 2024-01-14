@@ -30,16 +30,26 @@ int main(void){
     περνάμε τα δεδομένα/bytes από το ανοιχτό αρχείο - εικόνα (stdin-δείκτης σε
     ανοιχτό αρχείο) στον στατικό πίνακα χαρακτήρων headrers. */
     int  read=fread(headers,sizeof(char),54,stdin);
+    /*η fread επιστρέφει τον αριθμό των δεδομένων που διάβασε. Έτσι δημιουργούμε την
+    ακέραια μεταβλητή read που περιέχει αυτόν τον αριθμό */
     if(read<54){
+        /*Σύμφωνα με την εκφώνηση τα bytes όσο αφορά το headers πρέπει να είναι >=54.
+        Διαφορετικά το πρόγραμμα επιστρέφει με κωδικό εξόδου το 1 εκτυπωνοντας ανάλογο μήνυμα */
     
      fprintf(stderr,"sorry but the are not enough headers bytes in the file\n");
         exit(1);
     }
+    /*Για να θεωρείται ένα αρχείο τύπου bmp πρέπει να ξεκινά με τους χαρακτήρες B, M.
+    Διαφορετικά όπως ισχύει στην συγκεκριμένη περίπτωση επιστρέφει εμφανίζοντας κατάλληλο μήνυμα με
+    exit code 1*/
     if((headers[0]!='B')||(headers[1]!='M')){
         fprintf(stderr,"the file is not BMP type\n");
         exit(1); 
     }
     int width,heigh;
+    /* επειδή ο το όνομα του πίνακα  headers είναι δείκτης στο πρώτο στοιχείο και επειδή 
+    είναι τυπου char τον μετατρέπουμε σε δείκτη τύπου Int καθώς χρειαζόμαστε 4 bytes για 
+    την αναπαράσταση των ακέραιων μεγεθών */
     int file_size=*(unsigned int *)(headers+FILES); 
     int pixel_start=*(unsigned int *)(headers+START_PIXELS);
     width=*(unsigned int *)(headers+WI);
