@@ -19,7 +19,7 @@ pixels της εικόνας */
     pixels με την μορφή little endian*/
 #define PHOTOS 34 /*στο 34ο byte της κεφαλίδας (headers) περιέχεται το μέγεθος της εικόνας 
     σε bytes με την μορφή little endian*/
-
+#define BYTES 28/*στο 28ο byte βρίσκεται ο αριθμός των bit για τα χρώματα*/
 
 
 int main(void){
@@ -58,7 +58,11 @@ int main(void){
      στο pixel_start και τα headers bytes*/
     /*η fread αντιγράφει τα  diafora δεδομενα/bytes  από το stdin στον δυναμικό 
     πίνακα otherdata*/
-    
+    int bits;
+    bits=*(unsigned int *)(headers+BYTES);
+    if(bits!=24){
+         exit(1);/*δεν χρησιμοποιεί τα κατάλληλα bits χρώματων*/
+    }
     int diafora=pixel_start-54;
     otherdata=malloc(diafora*sizeof(char));
     fread(otherdata,sizeof(char),diafora,stdin);
@@ -88,7 +92,7 @@ int main(void){
                 image_array[i][j][k]=pixel_data[count];
                 count++;
                 
-            }
+            }/*περνάω τα pixel χωρίς padding*/
 
         }
     }
@@ -98,14 +102,14 @@ int main(void){
     for(i=0;i<new_heigh;i++){
         rotate_array[i]=malloc(new_width*sizeof(char *));
         for(j=0;j<new_width;j++){
-            rotate_array[i][j]=malloc(3*sizeof(char));
+            rotate_array[i][j]=malloc(3*sizeof(char));/*δεσμεύω μνήμη για rotate_array*/
         }
     }
     //rotate
     for(i=0;i<heigh;i++){
         for(j=0;j<width;j++){
             for(k=0;k<3;k++){
-                rotate_array[width-1-j][i][k]=image_array[i][j][k];
+                rotate_array[width-1-j][i][k]=image_array[i][j][k];/* αν παρατηρήσουμε τον αρχικό πίνακα και τον τον επιθυμητό βγαίνει αυτή η συνθήκη ενδιάμεσα στα κελιά των δύο πινάκων */
             }
         }
     }
@@ -113,13 +117,13 @@ int main(void){
     *(unsigned int *)(headers +WI) = new_width;
     *(unsigned int *)(headers + HI) = new_heigh;
     *(unsigned int *)(headers + FILES) = 54 + diafora + (new_width * 3 * new_heigh) + (padding * new_heigh);
-    *(unsigned int *)(headers +PHOTOS) = (new_width * 3 * new_heigh) + (padding * new_heigh * 3);
+    *(unsigned int *)(headers +PHOTOS) = (new_width * 3 * new_heigh) + (padding * new_heigh * 3);/*αλλάζω ότι χρειάζεται στα headers*/
     fwrite(headers,sizeof(char),54,stdout);
-    fwrite(otherdata,sizeof(char),diafora,stdout);
+    fwrite(otherdata,sizeof(char),diafora,stdout);/*εκτυπώνω τα  headers αλλαγμένα*/
     for(i=0;i<new_heigh;i++){
         for(j=0;j<new_width;j++){
             for(k=0;k<3;k++){
-                putchar(rotate_array[i][j][k]);
+                putchar(rotate_array[i][j][k]);/*εκτυπώνω τα pixel και στο τέλος κάθε γραμμής τα padding*/
             }
         }
         for(k=0;k<padding;k++){
@@ -128,7 +132,7 @@ int main(void){
     }
     for (int i = 0; i < new_heigh; i++) {
         for (int j = 0; j < new_width; j++) {
-            free(rotate_array[i][j]);
+            free(rotate_array[i][j]);/*αποδεσμεύω την μνήμη που έχω δεσμεύσει μέσω της malloc*/
         }
         free(rotate_array[i]);
     }
