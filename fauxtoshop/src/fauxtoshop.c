@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 //οι παραπάνω σταθερές προκύπτουν από την εκφώνηση της άσκησης 
-#define FILES 2
-#define START_PIXELS 10
-#define WI 18
+#define FILES 2 /* στο 2ο byte της κεφαλίδας(headers) περιέχεται το μέγεθος του αρχείου
+σε bytes με την μορφή little endian*/
+#define START_PIXELS 10 /*στο 10ο byte της κεφαλίδας(headers) περιέχεται το offset του
+    πίνακα των pixel σε μορφή little endian, δηλαδή το byte από το οποίο αρχίζουν τα
+pixels της εικόνας */
+
+
+ 
+#define WI 18 /
+
+
+ 
 #define HI 22
 #define PHOTOS 34
 
